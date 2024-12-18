@@ -35,7 +35,30 @@ void insertEnd(Node** head, int value) {
     }
     temp->next = newNode;
 }
+void insertByPosition(Node** head,int value,int p){
 
+	Node* newNode=createNode(value);
+
+	if(p==0){
+		newNode->next=*head;
+		*head=newNode;
+		return;
+	}
+
+	Node* tmp=*head;
+	for(int i=0;i<p-1&&tmp!=NULL;i++){
+		tmp=tmp->next;
+	}
+
+	if(tmp==NULL){
+		printf("Vi tri chen khong hop le\n");
+		return;
+	}
+
+	newNode->next=tmp->next;
+	tmp->next=newNode;
+	 printf("Da them %d vao vi tri %d.\n", value,p);
+}
 
 void deleteHead(Node** head) {
     if (*head == NULL) {
@@ -66,7 +89,17 @@ void deleteEnd(Node** head) {
     free(temp->next);
     temp->next = NULL;
 }
-
+void search(Node** head, int n){
+	Node* tmp=*head;
+	while(tmp!=NULL){
+		if(tmp->data==n){
+		    printf("Tim thay gia tri %d trong danh sach\n",n);
+			return;	
+		}
+		tmp=tmp->next;
+	}
+	printf("Khong tim thay gia tri %d trong danh sach \n",n);
+}
 
 void printList(Node* head) {
     if (head == NULL) {
@@ -87,6 +120,7 @@ int main() {
     Node* head = NULL; 
     int choice;
     int value;
+    int position;
 
     do {
         printf("\n=========== MENU ===========\n");
@@ -95,11 +129,15 @@ int main() {
         printf("3. xoa phan tu dau danh sach\n");
         printf("4. xoa phan tu cuoi danh sach\n");
         printf("5. hien thi danh sach\n");
-        printf("6. thoat\n");
+        printf("6. chen theo vi tri\n");
+        printf("7. tim kiem \n");
+        printf("8. thoat\n");
         printf("moi nhap\n ");
         scanf("%d", &choice);
 
         switch (choice) {
+             
+            	
             case 1:
                 printf("nhap dau ");
                 scanf("%d", &value);
@@ -120,7 +158,19 @@ int main() {
               
                 printList(head);
                 break;
-            case 6:
+            case 6: 
+                 printf("nhap gia tri can them: ");
+                scanf("%d", &value);
+                 printf("nhap vi tri can chen: ");
+                scanf("%d", &position);
+                insertByPosition(&head,value,position);
+                break;
+            case 7:
+            	printf("Nhap gia tri can tim: ");
+                scanf("%d", &value);
+            	search(&head,value);
+            	break;
+            case 8:
                	exit(0);
                 break;
             default:
